@@ -5,6 +5,8 @@ from backend.models.schema import Candidate, JobDescription
 from backend.models.schemas_pydantic import CandidateResponse
 from backend.utils.file_parser import parse_file
 from backend.agents.resume_parser import extract_resume_information
+from backend.embeddings.semantic_matcher import evaluate_candidate_similarity
+from backend.agents.rubric_scorer import generate_rubric_evaluation
 from typing import List
 
 router = APIRouter(prefix="/api/resume", tags=["Resume"])
@@ -48,13 +50,27 @@ async def upload_resumes(
         except:
             pass
 
+        # Evaluate Similarity
+        jd_json_str = jd.extracted_skills or "{}"
+        similarity_scores = evaluate_candidate_similarity(jd_json_str, extracted_data_json)
+        
+        # Generate Rubric and AI Reasoning
+        eval_result = generate_rubric_evaluation(jd_json_str, extracted_data_json, similarity_scores)
+
         # Create candidate entry
         new_candidate = Candidate(
             job_description_id=job_description_id,
             name=name,
             resume_text=parsed_text,
-            status="Pending",
-            extracted_data=extracted_data_json
+            status=eval_result["recommendation"],
+            extracted_data=extracted_data_json,
+            match_score=eval_result["overall_score"],
+            skills_score=similarity_scores.get("skills", 0),
+            experience_score=similarity_scores.get("experience", 0),
+            education_score=similarity_scores.get("education", 0),
+            projects_score=similarity_scores.get("projects", 0),
+            communication_score=eval_result["communication_score"],
+            ai_reasoning=eval_result["ai_reasoning"]
         )
         db.add(new_candidate)
         candidates.append(new_candidate)

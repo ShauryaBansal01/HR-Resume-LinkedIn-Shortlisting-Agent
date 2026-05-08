@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.database.db import engine, Base
-from backend.routes import jd_routes, resume_routes
+from backend.routes import jd_routes, resume_routes, report_routes
 import os
 
 # Create database tables
@@ -24,6 +24,7 @@ app.add_middleware(
 
 app.include_router(jd_routes.router)
 app.include_router(resume_routes.router)
+app.include_router(report_routes.router)
 
 @app.get("/")
 def read_root():

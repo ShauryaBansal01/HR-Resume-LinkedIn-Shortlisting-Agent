@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Upload, FileText, CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
+import CandidateTable from '../components/CandidateTable';
 
 export default function Candidates() {
   const [step, setStep] = useState(1); // 1: JD Upload, 2: Resume Upload, 3: Results
@@ -139,14 +140,22 @@ export default function Candidates() {
         </motion.div>
       )}
 
-      {/* Step 3: Results (Placeholder) */}
+      {/* Step 3: Results */}
       {step === 3 && (
         <motion.div 
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
           className="bg-card border border-border rounded-xl shadow-sm p-8"
         >
-          <h2 className="text-xl font-semibold mb-6">Candidate Rankings</h2>
-          <p className="text-muted-foreground">The Ranking Dashboard will be implemented here.</p>
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h2 className="text-xl font-semibold">Candidate Rankings</h2>
+              <p className="text-muted-foreground">AI-evaluated list of applicants based on the JD.</p>
+            </div>
+            <button className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium">
+              Export PDF
+            </button>
+          </div>
+          <CandidateTable />
         </motion.div>
       )}
     </div>

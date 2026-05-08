@@ -4,6 +4,7 @@ from backend.database.db import get_db
 from backend.models.schema import Candidate, JobDescription
 from backend.models.schemas_pydantic import CandidateResponse
 from backend.utils.file_parser import parse_file
+from backend.agents.resume_parser import extract_resume_information
 from typing import List
 
 router = APIRouter(prefix="/api/resume", tags=["Resume"])
@@ -35,13 +36,25 @@ async def upload_resumes(
         if not parsed_text:
             continue
 
+        extracted_data_json = extract_resume_information(parsed_text)
+
+        # Basic parsing to extract name from JSON if possible
+        import json
+        name = file.filename
+        try:
+            parsed_data = json.loads(extracted_data_json)
+            if parsed_data.get("name"):
+                name = parsed_data["name"]
+        except:
+            pass
+
         # Create candidate entry
         new_candidate = Candidate(
             job_description_id=job_description_id,
-            name=file.filename, # Temporary name, LLM will extract real name later
+            name=name,
             resume_text=parsed_text,
             status="Pending",
-            extracted_data="{}"
+            extracted_data=extracted_data_json
         )
         db.add(new_candidate)
         candidates.append(new_candidate)

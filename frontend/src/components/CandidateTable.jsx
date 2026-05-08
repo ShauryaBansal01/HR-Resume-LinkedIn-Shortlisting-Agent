@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Search, Filter, MoreHorizontal, CheckCircle2, AlertCircle, XCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const mockCandidates = [
   { id: 1, name: "Alice Johnson", match: 94, skills: 95, exp: 90, port: 92, status: "Strong Match" },
@@ -49,7 +50,11 @@ export default function CandidateTable() {
                 transition={{ duration: 0.2, delay: i * 0.05 }}
                 className="border-b border-border hover:bg-muted/50 transition-colors"
               >
-                <td className="p-4 align-middle font-medium">{c.name}</td>
+                <td className="p-4 align-middle font-medium">
+                  <Link to={`/candidates/${c.id}`} className="hover:underline text-primary">
+                    {c.name}
+                  </Link>
+                </td>
                 <td className="p-4 align-middle font-bold text-primary">{c.match}%</td>
                 <td className="p-4 align-middle">{c.skills}%</td>
                 <td className="p-4 align-middle">{c.exp}%</td>

@@ -4,6 +4,7 @@ from backend.database.db import get_db
 from backend.models.schema import JobDescription
 from backend.models.schemas_pydantic import JobDescriptionResponse
 from backend.utils.file_parser import parse_file
+from backend.agents.jd_parser import extract_jd_information
 
 router = APIRouter(prefix="/api/jd", tags=["Job Description"])
 
@@ -33,13 +34,12 @@ async def upload_jd(
     if not parsed_text:
         raise HTTPException(status_code=400, detail="Could not extract text from the provided input.")
 
-    # In Phase 3, we will call the LLM Agent here to extract structured skills.
-    # For now, we just save the raw text.
+    extracted_skills_json = extract_jd_information(parsed_text)
 
     new_jd = JobDescription(
         title=title,
         description_text=parsed_text,
-        extracted_skills="{}" # Placeholder for LLM output
+        extracted_skills=extracted_skills_json
     )
     db.add(new_jd)
     db.commit()

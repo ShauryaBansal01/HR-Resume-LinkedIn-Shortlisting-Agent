@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
-from backend.utils.llm_config import get_llm
+from utils.llm_config import get_llm
 import json
 
 class RubricEvaluation(BaseModel):

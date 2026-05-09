@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.database.db import engine, Base
-from backend.routes import jd_routes, resume_routes, report_routes
+from database.db import engine, Base
+from routes import jd_routes, resume_routes, report_routes
 import os
 
 # Create database tables

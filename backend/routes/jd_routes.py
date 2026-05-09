@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException
 from sqlalchemy.orm import Session
-from backend.database.db import get_db
-from backend.models.schema import JobDescription
-from backend.models.schemas_pydantic import JobDescriptionResponse
-from backend.utils.file_parser import parse_file
-from backend.agents.jd_parser import extract_jd_information
+from database.db import get_db
+from models.schema import JobDescription
+from models.schemas_pydantic import JobDescriptionResponse
+from utils.file_parser import parse_file
+from agents.jd_parser import extract_jd_information
 
 router = APIRouter(prefix="/api/jd", tags=["Job Description"])
 

@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
-from backend.utils.llm_config import get_llm
+from utils.llm_config import get_llm
 
 class ExtractedResume(BaseModel):
     name: str = Field(description="Full name of the candidate")

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Float, Text, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from backend.database.db import Base
+from database.db import Base
 
 class JobDescription(Base):
     __tablename__ = "job_descriptions"

@@ -1,7 +1,7 @@
 import json
 import numpy as np
 import faiss
-from backend.utils.llm_config import get_embeddings
+from utils.llm_config import get_embeddings
 
 def compute_similarity(text1: str, text2: str) -> float:
     """

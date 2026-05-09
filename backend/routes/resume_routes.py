@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException
 from sqlalchemy.orm import Session
-from backend.database.db import get_db
-from backend.models.schema import Candidate, JobDescription
-from backend.models.schemas_pydantic import CandidateResponse
-from backend.utils.file_parser import parse_file
-from backend.agents.resume_parser import extract_resume_information
-from backend.embeddings.semantic_matcher import evaluate_candidate_similarity
-from backend.agents.rubric_scorer import generate_rubric_evaluation
+from database.db import get_db
+from models.schema import Candidate, JobDescription
+from models.schemas_pydantic import CandidateResponse
+from utils.file_parser import parse_file
+from agents.resume_parser import extract_resume_information
+from embeddings.semantic_matcher import evaluate_candidate_similarity
+from agents.rubric_scorer import generate_rubric_evaluation
 from typing import List
 
 router = APIRouter(prefix="/api/resume", tags=["Resume"])
